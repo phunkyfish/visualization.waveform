@@ -142,31 +142,26 @@ ADDON_STATUS ADDON_Create(void* hdl, void* props)
 
   VIS_PROPS* visProps = (VIS_PROPS*)props;
 
-#ifdef HAS_OPENGL
-  g_device = visProps->device;
-#endif
-  g_viewport.TopLeftX = visProps->x;
-  g_viewport.TopLeftY = visProps->y;
-  g_viewport.Width = visProps->width;
-  g_viewport.Height = visProps->height;
-  g_viewport.MinDepth = 0;
-  g_viewport.MaxDepth = 1;
-#ifndef HAS_OPENGL  
-  g_context = (ID3D11DeviceContext*)visProps->device;
-  g_context->GetDevice(&g_device);
-  if (!init_renderer_objs())
-    return ADDON_STATUS_PERMANENT_FAILURE;
-#endif
-
   return ADDON_STATUS_OK;
 }
 
 //-- Start --------------------------------------------------------------------
 // Called when a new soundtrack is played
 //-----------------------------------------------------------------------------
-extern "C" void Start(int iChannels, int iSamplesPerSec, int iBitsPerSample, const char* szSongName)
+extern "C" void Start(int x, int y, int w, int h, void* device, float ratio,
+                      int iChannels, int iSamplesPerSec, int iBitsPerSample, const char* szSongName)
 {
-  //printf("Got Start Command\n");
+  g_viewport.TopLeftX = x;
+  g_viewport.TopLeftY = y;
+  g_viewport.Width = w;
+  g_viewport.Height = h;
+  g_viewport.MinDepth = 0;
+  g_viewport.MaxDepth = 1;
+#ifndef HAS_OPENGL
+  g_context = (ID3D11DeviceContext*)visProps->device;
+  g_context->GetDevice(&g_device);
+  init_renderer_objs();
+#endif
 }
 
 //-- Audiodata ----------------------------------------------------------------
