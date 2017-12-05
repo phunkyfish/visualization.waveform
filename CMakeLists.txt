@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
 find_package(Kodi REQUIRED)
 
-set(WAVEFORM_SOURCES src/Main.cpp)
+set(WAVEFORM_SOURCES src/Main32.cpp)
 
 if(WIN32)
   set(SHADER_FILES src/DefaultVertexShader.hlsl
